@@ -47,7 +47,7 @@ int handleArguments(int argc, char *argv[]) {
             return 1;
         }
     }
-    dataSending();
+    dataSending(inputFilename, outputFilename, srec);
     return 0;
 }
 /*
@@ -57,9 +57,9 @@ int handleArguments(int argc, char *argv[]) {
  * Input   : Nothing
  * Returns : void
  */
-void dataSending(void){
-    FILE* inputData = inputFileValidation(char* inputFilename);
-    FILE* outputData = outputFileValidation(char* outputFilename);
+void dataSending(char* inputFilename, char* outputFilename, int srec){
+    FILE* inputData = inputFileValidation(inputFilename);
+    FILE* outputData = outputFileValidation(outputFilename);
     if(srec){
         convert_binary_to_srec(inputData, outputData);
     }

@@ -14,4 +14,4 @@
 #include <string.h>
 
 int handle_arguments(int argc, char *argv[]);
-void dataSending(void);
+void dataSending(char* inputFilename, char* outputFilename, int srec);
