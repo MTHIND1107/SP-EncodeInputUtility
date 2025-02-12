@@ -19,7 +19,7 @@
  * Outputs : Writes assembly-formatted data to the output file.
  * Returns : void
  */
-void convert_binary_to_asm(FILE *input, FILE *output) {
+int convert_binary_to_asm(FILE *input, FILE *output) {
     if (!input || !output) {  // Check for valid file pointers
         fprintf(stderr, "Error: Invalid file pointers provided.\n");
         return;

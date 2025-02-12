@@ -10,7 +10,7 @@ unsigned char calculate_checksum(int count, int address, unsigned char* data) {
     return (~sum) & 0xFF;
 }
 
-void convert_binary_to_srec(FILE *input, FILE *output) {
+int convert_binary_to_srec(FILE *input, FILE *output) {
     if (!input || !output) {
         fprintf(stderr, "Error: Invalid file pointers provided.\n");
         return;
