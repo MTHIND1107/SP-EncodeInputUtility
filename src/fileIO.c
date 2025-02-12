@@ -1,3 +1,11 @@
+/*
+ * FILE: fileIO.c
+ * PROJECT: encodeInput Utility
+ * PROGRAMMER: BHAWANJEET KAUR GILL (STUDENT ID: 8958829)
+ * FIRST VERSION: 02/11/2025
+ * DESCRIPTION: To validate the input and output files along with having
+ *              the file's default to be stdin and stdout.
+ */
 #include "../inc/binary_to_asm.h"
 #include "../inc/binary_to_srec.h"
 #include "../inc/command_parser.h"
@@ -6,7 +14,6 @@
 #include "binary_to_asm.c"
 #include "binary_to_srec.c"
 #include "command_parser.c"
-#include "encode.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
