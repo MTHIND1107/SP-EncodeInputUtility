@@ -26,10 +26,6 @@ obj/encode.o: src/encode.c inc/encode.h
 obj/encode.o: src/binary_to_srec.c inc/binary_to_srec.h
 	gcc -c src/binary_to_srec.c -Iinc -o obj/binary_to_srec.o
 
-# Rule for input_handler.o
-obj/encode.o: src/input_handler.c inc/input_handler.h
-	gcc -c src/input_handler.c -Iinc -o obj/input_handler.o
-
 # Default target to build everything
 all: bin/encodeProject
 

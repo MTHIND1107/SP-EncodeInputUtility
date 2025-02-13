@@ -27,6 +27,31 @@ int convert_binary_to_asm(FILE *input, FILE *output) {
 
     unsigned char buffer[16];  // Buffer for grouping bytes
     size_t bytes_read;
+    int ch;
+
+     
+    // Handle input from stdin with proper CTRL-D (EOF) detection
+    if (input == stdin) {
+        size_t index = 0;
+        while ((ch = getchar()) != EOF) {
+            if (ch == 4 && prev_ch == '\n') { // CTRL-D at start of line
+                break; // Proper EOF handling
+            }
+            prev_ch = ch;
+            
+            if (index < 16) {
+                buffer[index++] = (unsigned char)ch;
+            }
+            if (index == 16 || ch == '\n') {
+                fprintf(output, "dc.b\t");
+                for (size_t i = 0; i < index; i++) {
+                    fprintf(output, "%s$%02X", (i > 0) ? ", " : "", buffer[i]);
+                }
+                fprintf(output, "\n");
+                index = 0;
+            }
+        }
+    } 
     
     // Read up to 16 bytes at a time
     while ((bytes_read = fread(buffer, 1, 16, input)) > 0) {
