@@ -11,5 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+//function prototypes
 FILE *inputFileValidation(char* inputFile);
 FILE *outputFileValidation(char* outputFile);
