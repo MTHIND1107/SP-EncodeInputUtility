@@ -1,3 +1,12 @@
+/*
+ * FILE: binary_to_srec.c
+ * PROJECT: encodeInput Utility
+ * PROGRAMMER: MANREET THIND (STUDENT ID: 8982315)
+ * FIRST VERSION: 02/10/2025
+ * DESCRIPTION:
+ * This file contains the implementation of functions that convert binary data into Motorola S-Record format. 
+ * It ensures correct formatting, checksum calculation, and record structuring for valid SREC output.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "../inc/binary_to_srec.h"
