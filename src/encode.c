@@ -30,13 +30,17 @@ int handleArguments(int argc, char *argv[]) {
     char* outputFilename = NULL;
     int srec = 0; //The value of srec is 0 by default and this will be directing to the asm conversion.
     int showHelp = 0; //By default is 0 but if asked for the help by the user, then converts to 1.
+    int checkInputName = 0;
+    int checkOutputName = 0;
 
     for(int i = 1; i < argc; i++){
         if(strncmp(argv[i], "-i", 2) == 0){
             inputFilename = argv[i] + 2;
+            checkInputName = 1;
         }
         else if(strncmp(argv[i], "-o", 2) == 0){
             outputFilename = argv[i] + 2;
+            checkOutputName = 1;
         }
         else if(strcmp(argv[i], "-srec") == 0){
             srec = 1; //To be converted to srec file.
@@ -63,6 +67,19 @@ int handleArguments(int argc, char *argv[]) {
  * Returns : void
  */
 void dataSending(char* inputFilename, char* outputFilename, int srec){
+    if(inputFilename != NULL && outputFilename == NULL){
+        char baseName[256];  // Buffer to store the base name
+        strncpy(baseName, inputFilename, sizeof(baseName) - 1);
+        baseName[sizeof(baseName) - 1] = '\0';
+
+        char *dot = strrchr(baseName, '.'); 
+        if (dot != NULL) {
+            *dot = '\0';
+        }
+        strcpy(outputFilename, inputFilename);
+        strcat(outputFilename, srec ? ".srec":".asm");
+
+    }
     FILE* inputData = inputFileValidation(inputFilename);
     FILE* outputData = outputFileValidation(outputFilename);
     if(srec){
