@@ -22,20 +22,48 @@
 int convert_binary_to_asm(FILE *input, FILE *output) {
     if (!input || !output) {  // Check for valid file pointers
         fprintf(stderr, "Error: Invalid file pointers provided.\n");
-        return;
+        return -1;
     }
 
-    unsigned char byte;
+    unsigned char buffer[16];  // Buffer for grouping bytes
+    size_t bytes_read;
     
-    // Read each byte from the binary file and convert to assembly DB directive
-    while (fread(&byte, 1, 1, input)) {
-        if(fprintf(output, "DB 0x%02X\n", byte) < 0) {  // Write to output file
+    // Read up to 16 bytes at a time
+    while ((bytes_read = fread(buffer, 1, 16, input)) > 0) {
+        // Write directive and tab
+        if (fprintf(output, "dc.b\t") < 0) {
             fprintf(stderr, "Error: Writing to output file failed.\n");
-            return;
-        }  
+            return -1;
+        }
+        
+        // Write bytes with proper formatting
+        for (size_t i = 0; i < bytes_read; i++) {
+            // Add comma and space between values, except for first value
+            if (i > 0) {
+                if (fprintf(output, ", ") < 0) {
+                    fprintf(stderr, "Error: Writing to output file failed.\n");
+                    return -1;
+                }
+            }
+            
+            // Write the byte in hex format with $ prefix
+            if (fprintf(output, "$%02X", buffer[i]) < 0) {
+                fprintf(stderr, "Error: Writing to output file failed.\n");
+                return -1;
+            }
+        }
+        
+        // End the line
+        if (fprintf(output, "\n") < 0) {
+            fprintf(stderr, "Error: Writing to output file failed.\n");
+            return -1;
+        }
     }
 
-    if (ferror(input)) {  // Check if file reading had an error
+    if (ferror(input)) {
         fprintf(stderr, "Error: Reading from input file failed.\n");
-    }    
+        return -1;
+    }
+    
+    return 0;
 }

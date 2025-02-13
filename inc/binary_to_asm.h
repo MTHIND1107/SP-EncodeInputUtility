@@ -12,6 +12,6 @@
 #include <stdio.h>
 
 // Function prototype
-void convert_binary_to_asm(FILE *input, FILE *output);
+int convert_binary_to_asm(FILE *input, FILE *output);
 
 #endif
