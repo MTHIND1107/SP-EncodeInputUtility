@@ -46,6 +46,11 @@ int handleArguments(int argc, char *argv[]) {
             printf("Usage: encodeInput [-iINPUTFILENAME] [-oOUTPUTFILENAME] [-srec] [-h]\n");
             return 1;
         }
+        else {  // Invalid argument
+            fprintf(stderr, "Error: Invalid option '%s'\n", argv[i]);
+            printf("Usage: encodeInput [-i inputfile] [-o outputfile] [-srec] [-h]\n");
+            return 1;
+        }
     }
     dataSending(inputFilename, outputFilename, srec);
     return 0;
