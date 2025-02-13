@@ -28,6 +28,7 @@ int convert_binary_to_asm(FILE *input, FILE *output) {
     unsigned char buffer[16];  // Buffer for grouping bytes
     size_t bytes_read;
     int ch;
+    int ch, prev_ch = '\n';
 
      
     // Handle input from stdin with proper CTRL-D (EOF) detection
