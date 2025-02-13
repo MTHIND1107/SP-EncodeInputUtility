@@ -19,8 +19,14 @@ int convert_binary_to_srec(FILE *input, FILE *output) {
     unsigned char buffer[16];
     int address = 0x0000;
     size_t bytesRead;
+    int s1_record_count = 0;
 
-    fprintf(output, "S007000053524543D1\n");
+     // Write S0 record
+     int s0_count = 3 + 2;  // 2 bytes for address, 1 for checksum
+     int s0_sum = s0_count + (0x0000 >> 8) + (0x0000 & 0xFF);
+     unsigned char s0_checksum = (~s0_sum) & 0xFF;
+     
+     fprintf(output, "S0%02X0000%02X\n", s0_count, s0_checksum);
 
     while ((bytesRead = fread(buffer, 1, 16, input)) > 0) {
         int count = bytesRead + 3;
@@ -32,14 +38,23 @@ int convert_binary_to_srec(FILE *input, FILE *output) {
         }
         fprintf(output, "%02X\n", checksum);
 
-        address += 16;
+        address += bytesRead; 
+        s1_record_count++;
     }
 
-    fprintf(output, "S9030000FC\n");
 
     if (ferror(input)) {
         fprintf(stderr, "Error: Reading from input file failed.\n");
+        return -1;
     }
 
-    fclose(output);
+    // Write S5 record (count of S1 records)
+    int s5_count = 3 + 2;  
+    unsigned char s5_checksum = (~(s5_count + (s1_record_count >> 8) + (s1_record_count & 0xFF))) & 0xFF;
+    fprintf(output, "S5%02X%04X%02X\n", s5_count, s1_record_count, s5_checksum);
+
+    //Write S9 termination record
+    fprintf(output, "S9030000FC\n");
+
+    return 0;
 }
